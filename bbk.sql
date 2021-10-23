@@ -72,12 +72,13 @@ DROP TABLE IF EXISTS `buildings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `buildings` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `address` varchar(200) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL
+  `type` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,7 +99,7 @@ DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `premium_customer` varchar(50) DEFAULT NULL,
@@ -107,7 +108,8 @@ CREATE TABLE `customers` (
   `state` varchar(50) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   `dob` int DEFAULT NULL,
-  `age` int DEFAULT NULL
+  `age` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -128,7 +130,7 @@ DROP TABLE IF EXISTS `earphone`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `earphone` (
-  `product_code` int DEFAULT NULL,
+  `product_code` int NOT NULL,
   `buds_battery` int DEFAULT NULL,
   `case_battery` int DEFAULT NULL,
   `dimensions` int DEFAULT NULL,
@@ -136,7 +138,8 @@ CREATE TABLE `earphone` (
   `driver_size` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `total_battery` int DEFAULT NULL,
-  `charging_time` int DEFAULT NULL
+  `charging_time` int DEFAULT NULL,
+  PRIMARY KEY (`product_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -157,14 +160,15 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `employees` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
   `team` varchar(50) DEFAULT NULL,
   `experience` int DEFAULT NULL,
   `salary` int DEFAULT NULL,
   `no_of_leaves_used` int DEFAULT NULL,
-  `hours_spent_a_month` int DEFAULT NULL
+  `hours_spent_a_month` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -276,13 +280,14 @@ DROP TABLE IF EXISTS `parts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `parts` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `manufacturer` varchar(50) DEFAULT NULL,
   `year_of_release` varchar(50) DEFAULT NULL,
-  `weekly_production` varchar(50) DEFAULT NULL
+  `weekly_production` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -303,13 +308,14 @@ DROP TABLE IF EXISTS `powerbank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `powerbank` (
-  `product_code` int DEFAULT NULL,
+  `product_code` int NOT NULL,
   `dimensions` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `battery_size` int DEFAULT NULL,
   `charging_time` int DEFAULT NULL,
-  `no_of_ports` int DEFAULT NULL
+  `no_of_ports` int DEFAULT NULL,
+  PRIMARY KEY (`product_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -353,14 +359,15 @@ DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
-  `code` int DEFAULT NULL,
+  `code` int NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `cost` int DEFAULT NULL,
   `sales` int DEFAULT NULL,
   `profit` int DEFAULT NULL,
   `launch_date` date DEFAULT NULL,
   `weekly_production` int DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL
+  `type` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -381,9 +388,10 @@ DROP TABLE IF EXISTS `retail_store`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `retail_store` (
-  `building_id` int DEFAULT NULL,
+  `building_id` int NOT NULL,
   `avg_customers` int DEFAULT NULL,
-  `avg_profit` int DEFAULT NULL
+  `avg_profit` int DEFAULT NULL,
+  PRIMARY KEY (`building_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -427,9 +435,10 @@ DROP TABLE IF EXISTS `reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `stars` int DEFAULT NULL,
-  `review` varchar(300) DEFAULT NULL
+  `review` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -450,9 +459,10 @@ DROP TABLE IF EXISTS `services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `services` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `price` int DEFAULT NULL
+  `price` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -462,6 +472,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES (123,'idklol',500);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -473,7 +484,7 @@ DROP TABLE IF EXISTS `smartphone`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `smartphone` (
-  `code` int DEFAULT NULL,
+  `code` int NOT NULL,
   `battery` int DEFAULT NULL,
   `main_cam_res` int DEFAULT NULL,
   `charger_wattage` int DEFAULT NULL,
@@ -483,7 +494,8 @@ CREATE TABLE `smartphone` (
   `glass_spec` varchar(50) DEFAULT NULL,
   `soc` varchar(50) DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
-  `display` varchar(50) DEFAULT NULL
+  `display` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -504,14 +516,15 @@ DROP TABLE IF EXISTS `speaker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `speaker` (
-  `product_code` int DEFAULT NULL,
+  `product_code` int NOT NULL,
   `battery_life` int DEFAULT NULL,
   `dimensions` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `battery_size` int DEFAULT NULL,
   `output_power` int DEFAULT NULL,
-  `driver_size` float DEFAULT NULL
+  `driver_size` float DEFAULT NULL,
+  PRIMARY KEY (`product_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -532,10 +545,11 @@ DROP TABLE IF EXISTS `stock_of`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stock_of` (
-  `brand_name` varchar(50) DEFAULT NULL,
+  `brand_name` varchar(50) NOT NULL,
   `yoy_growth` double DEFAULT NULL,
   `qoq_growth` double DEFAULT NULL,
-  `stock_price` double DEFAULT NULL
+  `stock_price` double DEFAULT NULL,
+  PRIMARY KEY (`brand_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -557,11 +571,12 @@ DROP TABLE IF EXISTS `sub_brands`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sub_brands` (
   `brand_name` varchar(50) DEFAULT NULL,
-  `sub_brand_name` varchar(50) DEFAULT NULL,
+  `sub_brand_name` varchar(50) NOT NULL,
   `market_share` double DEFAULT NULL,
   `yoy_growth` double DEFAULT NULL,
   `qoq_growth` double DEFAULT NULL,
-  `product_type` varchar(50) DEFAULT NULL
+  `product_type` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`sub_brand_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -582,11 +597,12 @@ DROP TABLE IF EXISTS `tv`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tv` (
-  `product_code` int DEFAULT NULL,
+  `product_code` int NOT NULL,
   `dimensions` int DEFAULT NULL,
   `frame` varchar(50) DEFAULT NULL,
   `display` varchar(50) DEFAULT NULL,
-  `soc` varchar(50) DEFAULT NULL
+  `soc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`product_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -629,10 +645,11 @@ DROP TABLE IF EXISTS `warehouse`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `warehouse` (
-  `building_id` int DEFAULT NULL,
+  `building_id` int NOT NULL,
   `size` int DEFAULT NULL,
   `operational_costs` int DEFAULT NULL,
-  `unused_space` int DEFAULT NULL
+  `unused_space` int DEFAULT NULL,
+  PRIMARY KEY (`building_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -699,4 +716,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-22  8:51:57
+-- Dump completed on 2021-10-23 14:44:56
