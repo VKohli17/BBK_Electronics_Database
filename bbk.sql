@@ -61,6 +61,7 @@ CREATE TABLE `brands` (
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
+INSERT INTO `brands` VALUES ('OnePlus','Carl Pei','ABC','2011-09-09'),('Oppo','ABCD','ABCDE','2007-09-09');
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,6 +89,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
+INSERT INTO `buildings` VALUES (123,'somewhere','city1','state1','country1','warehouse'),(124,'somewhere_else','city2','state1','country1','retail_store');
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +109,7 @@ CREATE TABLE `customers` (
   `city` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
-  `dob` date DEFAULT NULL,
+  `dob` int DEFAULT NULL,
   `age` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -178,6 +180,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
+INSERT INTO `employees` VALUES (123,'John','manager','r&d',10,100000,6,180),(124,'ABC','salesman','marketing',5,10000,6,180),(125,'XYZ','engineer','display',2,1000000,7,200);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,6 +589,7 @@ CREATE TABLE `sub_brands` (
 
 LOCK TABLES `sub_brands` WRITE;
 /*!40000 ALTER TABLE `sub_brands` DISABLE KEYS */;
+INSERT INTO `sub_brands` VALUES ('Vivo','IQOO',5.6,2.3,3.4,'smartphones'),('Oppo','Realme',5.6,2.3,3.4,'ecosystem');
 /*!40000 ALTER TABLE `sub_brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -716,4 +720,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-23 14:44:56
+-- Dump completed on 2021-10-24 11:15:01

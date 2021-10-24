@@ -1,27 +1,8 @@
 import pymysql
 import mysql.connector as SQLC
 import subprocess as sp
-import customer_interface
-
-
-def Customer():
-    while(1):
-        tmp = sp.call('clear', shell=True)
-
-def InventoryManager():
-    while(1):
-        tmp = sp.call('clear', shell=True)
-        
-def Administrator():
-    while(1):
-        tmp = sp.call('clear', shell=True)
-        
-def Researcher():
-    while(1):
-        tmp = sp.call('clear', shell=True)
-    
-
-
+from customer_interface import *
+from administrator import *
 while(1):
     tmp = sp.call('clear',shell=True)
     
@@ -32,6 +13,10 @@ while(1):
     print("5. Exit")
     
     ch = int(input("Enter Choice> "))
+    if(ch==5):
+        exit()
+    
+    
     tmp = sp.call('clear', shell=True)
     
     Username = input("Username: ")
@@ -42,7 +27,8 @@ while(1):
         exit()
     
     if(ch==1):
-        Customer()
+        print()
+        Customer(1)
         
     if(ch==2):
         InventoryManager()
@@ -53,7 +39,5 @@ while(1):
     if(ch==4):
         Researcher()
     
-    if(ch==5):
-        exit()
     
 
