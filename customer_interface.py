@@ -34,11 +34,11 @@ def show(customer_id, column_name, con):
 def createCustomer():
     fname = input("Please enter your ")
 
-def customer(customer_id):
+def Customer(customer_id):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="DNA",
+        password="fckdna",
         db='bbk',
         cursorclass=pymysql.cursors.DictCursor)
 
@@ -52,7 +52,7 @@ def customer(customer_id):
         user_query = input("Enter a prompt: ").split()
         if(len(user_query) > 0):
             if(user_query[0] == "exit"):
-                break
+                return
             elif(user_query[0] == "show"):
                 if(len(user_query) > 1):
                     if(user_query[1] == "devices"):
@@ -66,4 +66,4 @@ def customer(customer_id):
             else:
                 print("Invalid Argument")
 
-customer(1)
+    Customer(1)
