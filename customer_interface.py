@@ -6,12 +6,12 @@ def show(customer_id, column_name, con):
     cur = con.cursor()
     try:
         if(column_name == "products"):
-            cur.execute("select products.name from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customer.id = {}".format(customer_id))
+            cur.execute("select products.name from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customers.id = {}".format(customer_id))
             print("Devices Owned")
             for obj in cur:
                 print (obj["name"])
         elif(column_name == "reviews"):
-            cur.execute("select reviews.stars, reviews.review from customers join review on customers.id = review.customer_id join reviews on reviews.id=review.review_id where customer.id = {}".format(customer_id))
+            cur.execute("select reviews.stars, reviews.review from customers join review on customers.id = review.customer_id join reviews on reviews.id=review.review_id where customers.id = {}".format(customer_id))
             print("Stars\tReview")
             for obj in cur:
                 print (str(obj["stars"]) + "\t" + obj["review"])
