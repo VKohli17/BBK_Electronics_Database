@@ -4,7 +4,7 @@ import pymysql
 con = pymysql.connect(host='localhost',
     port=30306,
     user="root",
-    password="fckdna",
+    password="DNA",
     db='bbk',
     cursorclass=pymysql.cursors.DictCursor)
 
