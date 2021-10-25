@@ -10,16 +10,36 @@ def show(Researcher_id, column_name, con):
             filter1 = input("Filter by type: (smartphone/earphone/powerbank/speaker/all)")
             filter2 = input("Filter by brand: (Oppo/Vivo/OnePlus/all)")
             # order by
-            cur.execute("select products.name from Researchers join owns_a on Researchers.id = owns_a.Researcher_id join products on owns_a.product_id=products.code where Researchers.id = {}".format(Researcher_id))
-            print("Devices Owned")
-            for obj in cur:
-                print (obj["name"])
-        elif(column_name == "employees"):
-            cur.execute("select * from employees;")
-            # total man-hours, money, employees; order by
-            print("Stars\tReview")
-            for obj in cur:
-                print (str(obj["stars"]) + "\t" + obj["review"])
+            order = input("Order by: (cost/sales/profit) ")
+            if(filter1 == "all"):
+                if(filter2 == "all"):
+                    cur.execute("SELECT * FROM products ORDER BY " + order)
+                else:
+                    if(filter2 == "Oppo" or filter2 == "vivo" or filter2 == "OnePlus"):
+                        cur.execute("SELECT * FROM products WHERE brand = '" + filter2 + "' ORDER BY " + order)
+                    # else if there is partial text match
+                    else:
+                        cur.execute("SELECT * FROM products WHERE brand LIKE '%" + filter2 + "%' ORDER BY " + order)
+            elif(filter1 == "smartphone" or filter1 == "earphone" or filter1 == "powerbank" or filter1 == "speaker"):
+                    if(filter2 == "all"):
+                        cur.execute("SELECT * FROM products WHERE type = '" + filter1 + "' ORDER BY " + order)
+                    else:
+                        if(filter2 == "Oppo" or filter2 == "vivo" or filter2 == "OnePlus"):
+                            cur.execute("SELECT * FROM products WHERE type = '" + filter1 + "' AND brand = '" + filter2 + "' ORDER BY " + order)
+                        # else if there's partial text match for filter2
+                        else:
+                            cur.execute("SELECT * FROM products WHERE type = '" + filter1 + "' AND brand LIKE '%" + filter2 + "%' ORDER BY " + order)
+                # else if there is partial text match for filter1
+            else:
+                if(filter2 == "all"):
+                    cur.execute("SELECT * FROM products WHERE type LIKE '%" + filter1 + "%' ORDER BY " + order)
+                else:
+                    if(filter2 == "Oppo" or filter2 == "vivo" or filter2 == "OnePlus"):
+                        cur.execute("SELECT * FROM products WHERE type LIKE '%" + filter1 + "%' AND brand = '" + filter2 + "' ORDER BY " + order)
+                    # else if there's partial text match for filter2
+                    else:
+                        cur.execute("SELECT * FROM products WHERE type LIKE '%" + filter1 + "%' AND brand LIKE '%" + filter2 + "%' ORDER BY " + order)
+        # elif(column_name == "employees"):
     except pymysql.Error as e:
         try:
             print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
