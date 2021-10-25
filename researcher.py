@@ -13,6 +13,7 @@ def show(Researcher_id, column_name, con):
             order = input("Order by: (cost/sales/profit) ")
             if(filter1 == "all"):
                 if(filter2 == "all"):
+                    # select all from products and select brand from smartphones where smartphones.code = products.code
                     cur.execute("SELECT * FROM products ORDER BY " + order)
                 else:
                     if(filter2 == "Oppo" or filter2 == "vivo" or filter2 == "OnePlus"):
@@ -63,8 +64,8 @@ def Researcher(Researcher_id):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="fckdna",
-        db='bbk',
+        password="dna",
+        db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 
     if (con.open):
