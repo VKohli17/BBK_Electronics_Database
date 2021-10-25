@@ -71,7 +71,6 @@ def UpdateProductsInfo(con):
 def UpdateEmployeeInfo(con):
     cur = con.cursor()
     options = int(input("Enter id of Employee"))
-    
     query1 = "select * from employees"
     cur.execute(query1)
     l = []
