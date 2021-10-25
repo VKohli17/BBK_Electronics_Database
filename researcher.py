@@ -2,43 +2,73 @@ import pymysql
 import mysql.connector as SQLC
 import subprocess as sp
 
-def search(list,n):
-    for i in range(len(list)):
-        if list[i]==n:
-            return True
-    return False
+def show(Researcher_id, column_name, con):
+    cur = con.cursor()
+    try:
+        if(column_name == "products"):
+            # ask user if they want to filter by type; partial text match available
+            filter1 = input("Filter by type: (smartphone/earphone/powerbank/speaker/all)")
+            filter2 = input("Filter by brand: (Oppo/Vivo/OnePlus/all)")
+            # order by
+            cur.execute("select products.name from Researchers join owns_a on Researchers.id = owns_a.Researcher_id join products on owns_a.product_id=products.code where Researchers.id = {}".format(Researcher_id))
+            print("Devices Owned")
+            for obj in cur:
+                print (obj["name"])
+        elif(column_name == "employees"):
+            cur.execute("select * from employees;")
+            # total man-hours, money, employees; order by
+            print("Stars\tReview")
+            for obj in cur:
+                print (str(obj["stars"]) + "\t" + obj["review"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+        finally:
+            cur.close()
 
-def Interface():
-    cursor = connect_db()
-    query = "Select product_code from Products"
+def createResearcher():
+    fname = input("Please enter your ")
 
-    cursor.execute(query)
-    product_code_list = [i[0] for i in cursor.fetchall()]
+def Researcher(Researcher_id):
+    con = pymysql.connect(host='localhost',
+        port=30306,
+        user="root",
+        password="fckdna",
+        db='bbk',
+        cursorclass=pymysql.cursors.DictCursor)
 
-    Product = input("Product Code of the product/project you wish to generate report about: ")
-    tmp = sp.call('clear',shell=True)
-    
-    if not search(product_code_list,Product):
-        print("No Product/Project with such id")
-        return
-        
-    print("Choose the Type of report: ")
-    print("Option 1. Stock Analysis")
-    print("Sales Purchase Analysis")
-    print("Customer Review Analysis")
-    
-    ch = int(input("Enter Choice> "))
-    tmp = sp.call('clear',shell=True)
-    
-    if ch==1:
-        query = ""
-    if ch==2:
-        query = ""
-    if ch==3:
-        query = ""
-    
-    cursor.execute(query)
-    
-    
-        
-    
+    if (con.open):
+        print("Connected")
+    else:
+        print("Failed to Connect")
+        exit
+
+    while(1):
+        user_query = input("Enter query: ").split()
+        if(len(user_query) > 0):
+            if(user_query[0] == "exit"):
+                return
+            elif(user_query[0] == "show"):
+                if(len(user_query) > 1):
+                    if(user_query[1] == "devices"):
+                        show(Researcher_id, "products", con)
+                    elif(user_query[1] == "reviews"):
+                        show(Researcher_id, "reviews", con)
+                    else:
+                        print("Invalid Arguments")
+                else:
+                    print("Insufficient Arguments")
+            else:
+                print("Invalid Argument")
+
+    Researcher(1)

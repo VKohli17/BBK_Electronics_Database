@@ -3,6 +3,12 @@ import mysql.connector as SQLC
 import subprocess as sp
 # from customer_interface import *
 
+def searchList(L, value):
+    for i in range(len(L)):
+        if value == L[i]:
+            return True
+    return False
+
 def display(column_name, con):
     cur = con.cursor()
     if(column_name == "employees"):
@@ -10,6 +16,94 @@ def display(column_name, con):
         print("Employees list")
         for obj in cur:
             print(obj["name"] + "\t" + obj["role"])
+    
+    cur = con.cursor()
+    if(column_name == "products"):
+        cur.execute("select * from products")
+        print("Products Info List")
+        for obj in cur:
+            print(obj["name"] + "\t" + obj["code"] + "\t" + obj["cost"] + "\t" + obj["sales"] + "\t" + obj["profit"])
+
+def Update(con):
+    print("Option 1: Employee Data")
+    print("Option 2: Product Info")
+    
+    option_selected = int(input("Enter selection: "))
+    if(option_selected == 1):
+        UpdateEmployeeInfo(con)
+    if(option_selected == 2):
+        UpdateProductsInfo(con)
+
+def UpdateProductsInfo(con):
+    cur = con.cursor()
+    options = int(input("Enter id of Product"))
+    
+    query1 = "select * from products"
+    cur.execute(query1)
+    l = []
+    for obj in cur:
+        l.append(obj["id"])
+        print(obj)    
+    print(l)
+    if not searchList(l,options):
+        print("No Product with entered id")
+        print("Find id(s) of product(s) here:")
+        print(l)
+    else:
+        parameter = input("Enter the parameter to be updated: ")
+        cur.execute(query1)
+        l = []
+        for obj in cur:
+           l = list(obj.keys())
+        print(l)
+
+        if not searchList(l,parameter):
+            print("Invalid parameter")
+            print("Valid parameters: ")
+            print(l)
+        else:
+            value = input("Enter the new value: ")
+            query2 = "update products set " + parameter + " = " + value + " where id = " + str(options)
+            print(query2)
+            cur.execute(query2)
+            con.commit()
+
+def UpdateEmployeeInfo(con):
+    cur = con.cursor()
+    options = int(input("Enter id of Employee"))
+    
+    query1 = "select * from employees"
+    cur.execute(query1)
+    l = []
+    for obj in cur:
+        l.append(obj["id"])
+        print(obj)    
+    print(l)
+    if not searchList(l,options):
+        print("No Employee with entered id")
+        print("Find id(s) of employee(s) here:")
+        print(l)
+    else:
+        parameter = input("Enter the parameter to be updated: ")
+        cur.execute(query1)
+        l = []
+        for obj in cur:
+           l = list(obj.keys())
+        print(l)
+
+        if not searchList(l,parameter):
+            print("Invalid parameter")
+            print("Valid parameters: ")
+            print(l)
+        else:
+            value = input("Enter the new value: ")
+            query2 = "update employees set " + parameter + " = " + value + " where id = " + str(options)
+            print(query2)
+            cur.execute(query2)
+            con.commit()
+
+        
+
 
 def show(customer_id, column_name, con):
     cur = con.cursor()
@@ -64,12 +158,19 @@ def Administrator():
                     if(user_query[1] == "employees"):
                         print("executing")
                         display("employees",con)
-                    elif(user_query[1] == "devices"):
-                        show(1,"products",con)
+                    elif(user_query[1] == "products"):
+                        #show(1,"products",con)
+                        display("products",con)
                     else:
                         print("Invalid Arguements 1")
                 else:
                     print("Insufficient Arguements")
+            
+            elif(user_query[0] == "Update"):
+                Update(con)    
+                    
+            
+            
             else:
                 print("Invalid Arguements 2") 
                         
