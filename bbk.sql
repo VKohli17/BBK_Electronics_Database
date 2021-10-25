@@ -51,7 +51,10 @@ CREATE TABLE `brands` (
   `brand_name` varchar(50) DEFAULT NULL,
   `founder` varchar(50) DEFAULT NULL,
   `ceo` varchar(50) DEFAULT NULL,
-  `founding_date` date DEFAULT NULL
+  `founding_date` date DEFAULT NULL,
+  `yoy_growth` double DEFAULT NULL,
+  `qoq_growth` double DEFAULT NULL,
+  `market_share` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,7 +64,7 @@ CREATE TABLE `brands` (
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
-INSERT INTO `brands` VALUES ('OnePlus','Carl Pei','ABC','2011-09-09'),('Oppo','ABCD','ABCDE','2007-09-09');
+INSERT INTO `brands` VALUES ('OnePlus','Carl Pei','ABC','2011-09-09',NULL,NULL,NULL),('Oppo','ABCD','ABCDE','2007-09-09',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,6 +124,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In',123456,32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In',123456,32);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,6 +502,8 @@ CREATE TABLE `smartphone` (
   `soc` varchar(50) DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `display` varchar(50) DEFAULT NULL,
+  `brand_name` varchar(50) DEFAULT NULL,
+  `sub_brand_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -720,4 +726,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-24 11:15:01
+-- Dump completed on 2021-10-25 13:39:54
