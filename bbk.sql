@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.26, for Linux (x86_64)
 --
--- Host: localhost    Database: bbk
+-- Host: localhost    Database: bbke
 -- ------------------------------------------------------
 -- Server version	8.0.26-0ubuntu0.21.04.3
 
@@ -115,7 +115,7 @@ CREATE TABLE `customers` (
   `dob` date DEFAULT NULL,
   `age` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In',123456,32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In',123456,32);
+INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,6 +276,7 @@ CREATE TABLE `owns_a` (
 
 LOCK TABLES `owns_a` WRITE;
 /*!40000 ALTER TABLE `owns_a` DISABLE KEYS */;
+INSERT INTO `owns_a` VALUES (3,1);
 /*!40000 ALTER TABLE `owns_a` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +445,7 @@ DROP TABLE IF EXISTS `reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `stars` int DEFAULT NULL,
   `review` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -728,4 +729,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-25 21:25:15
+-- Dump completed on 2021-10-26  2:08:30
