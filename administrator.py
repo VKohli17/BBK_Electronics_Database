@@ -335,10 +335,10 @@ def ShowInfo(con):
 
 def Administrator():
     con = pymysql.connect(host='localhost',
-        port=8080,
+        port=30306,
         user="root",
-        password="mavericks",
-        db='bbkelec',
+        password="dna",
+        db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 
     if(con.open):
