@@ -52,11 +52,12 @@ For a **customer**, we can create a new customer account, and the script asks us
 
 After that, we can login through a customer's account and then:
 
- - buy a device
+ - buy a device (buying it also increments its "sales" in the product table by one. Also, fuzzy search works and asks you which of the results you want to buy)
  - show our devices
+ - show all devices 
  - add a review
  - edit review
- - show our review 
+ - show our reviews
  - show all reviews for a product (fuzzy search for product works)
  - delete review
  - return device
