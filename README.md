@@ -1,16 +1,24 @@
-We go sequentially from researcher to administrator, and then to customer.
+Links to the demo video: 
 
-For the **researcher**, we have the option to show stats of:
+https://iiitaphyd-my.sharepoint.com/:v:/g/personal/vanshpreet_k_research_iiit_ac_in/EQUpm49sePBGg3KACrQH5WoBRF1oB-tweNy-mZjbnlLe7Q?e=irEzyb (1x speed; 10 mins)
+
+https://iiitaphyd-my.sharepoint.com/:v:/g/personal/vanshpreet_k_research_iiit_ac_in/EQtG-Hpgt3lJkuD-3G7jmekBQn0EgRFkiJ9QFBLW_HGZXA?e=gDw5p3 (2x speed; 5 mins)
+
+We go sequentially from researcher to administrator, and then to customer.
+One (non-exhaustive) example of each query function has been highlighted in italics.
+
+For the **researcher**, we have the option to show stats of: 
 
  - products
- - employees
+ - employees    
  - finances
 
 For products, we can filter by product type, or not filter at all:
 
-First enter `show products`. 
+First enter `show products`.     *(Selection)*
 
- - Then, the TUI prompts you to choose product type. Here, we can choose "all" to show all products, or one of the types - note that here fuzzy searching works, so (say) "smar" will show all products corresponding to "smartphone".
+ - Then, the TUI prompts you to choose product type. Here, we can choose "all" to show all products, or one of the types *(projection)* 
+ - note that here fuzzy searching works, so (say) "smar" will show all products corresponding to "smartphone".
  - Next, the TUI prompts you to choose a brand. Like before, "all" and fuzzy searching are available.
  - Finally, you are prompted to choose what attribute to order the products by. 
 
@@ -19,7 +27,7 @@ In the demo video, we do this 4 times. Once to show all, once to show all Oppo p
 Similarly, for employees, we enter `show employees`. Here, we don't have any filters because there aren't any meaningful segregation criteria.
 
  - the TUI asks you to choose an attribute to order the employees by.
- - it also returns sum and average values of salary given out, holidays taken and hours spent at work.
+ - it also returns sum and average values of salary given out, holidays taken and hours spent at work. *(aggregate)*
 
 We run this twice to show different filters.
 
@@ -31,7 +39,7 @@ For the **administrator**, we can show info, update info, add info and delete in
 
 `Show info` is functionally essentially the same as the one for the researcher, so we skip it. 
 
-For `update info`, we can update employee credentials or product info.
+For `update info`, we can update employee credentials or product info. *(modification)*
 
  - First we update employee credentials.
  - Then we update product info.
@@ -41,7 +49,7 @@ For `add info` we can add new employees or products.
  - First we add a new employee.
  - Then we add a new product.
 
-For `delete info`, we can delete an employee or a product.
+For `delete info`, we can delete an employee or a product.          *(deletion)*
 
  - First we delete an employee.
  - Then we delete a product.
