@@ -75,7 +75,8 @@ def editMe(customer_id, con):
 
     cur = con.cursor()
     try:
-        cur.execute("insert into customers (first_name, last_name, premium_customer, gender, city, state, country, dob, age) values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {})".format(fname, lname, prem, gender, city, state, country, dob, age))
+        cur.execute("update customers s (first_name, last_name, premium_customer, gender, city, state, country, dob, age) values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {})".format(fname, lname, prem, gender, city, state, country, dob, age))
+        # where customer_id matches, change all parameters to newly input ones
     except pymysql.Error as e:
         try:
             print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
@@ -107,7 +108,7 @@ def showmy(customer_id, column_name, con):
                 table.add_row([row["name"], row["brand"], row["type"]])
             print(table)
         elif(column_name == "reviews"):
-            cur.execute("select reviews.stars, reviews.review, products.name from customers join review on customers.id = review.customer_id join reviews on reviews.id=review.review_id where customers.id = {}".format(customer_id))
+            cur.execute("select reviews.stars, reviews.review, products.name from customers join review on customers.id = review.customer_id join reviews on reviews.id=review.review_id join products on products.code = review.product_id where customers.id = {}".format(customer_id))
             table = PrettyTable()
             table.field_names = ["Stars", "Review", "Product Name"]
             rows = cur.fetchall()
@@ -198,7 +199,7 @@ def buyProduct(customer_id, con):
     try:
         cur = con.cursor()
         codes = []
-        cur.execute("select code, name from products where name like '%{}%'".format(pname))
+        cur.execute("select code, name, brand from products where name like '%{}%'".format(pname))
         table = PrettyTable()
         table.field_names = ["Code", "Product Name", "Brand"]
         rows = cur.fetchall()
@@ -274,7 +275,7 @@ def createReview(customer_id, con):
     try:
         cur = con.cursor()
         codes = []
-        cur.execute("select products.code, products.name from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customers.id = {} and products.name like '%{}%';".format(customer_id, pname))
+        cur.execute("select products.code, products.name, products.brand from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customers.id = {} and products.name like '%{}%';".format(customer_id, pname))
 
         table = PrettyTable()
         table.field_names = ["Code", "Product Name", "Brand"]
@@ -398,7 +399,7 @@ def showReviews(con):
     if(code in codes):
         try:
             cur = con.cursor()
-            cur.execute("select reviews.stars, reviews.review from reviews join review on review.review_id = reviews.id join products on review.product_id = {};".format(code))
+            cur.execute("select reviews.stars, reviews.review from reviews join review on review.review_id = reviews.id join products on review.product_id = products.code where products.code = {};".format(code))
             table = PrettyTable()
             table.field_names = ["Stars", "Review"]
             rows = cur.fetchall()
@@ -653,10 +654,10 @@ def deletemyDevice(customer_id, con):
             return None
     finally:
         cur.close()
-    code = int(input("Please enter the ID of the review you wish to delete: "))
+    code = int(input("Please enter the ID of the device you wish to return: "))
     if(code in codes):
-        check = input("Are you sure you want to delete this review? (type 'Delete' to confirm)\n")
-        if(check == "Delete"):
+        check = input("Are you sure you want to return this device? (type 'Return' to confirm)\n")
+        if(check == "Return"):
             try:
                 cur = con.cursor()
                 cur.execute("delete from owns_a where product_id = {}".format(code))
@@ -700,7 +701,7 @@ def deleteMe(customer_id, con):
                 return None
         finally:
             cur.close()
-            cur.commit()
+            con.commit()
 
         review_id = []
 
@@ -765,7 +766,7 @@ def deleteMe(customer_id, con):
                 return None
         finally:
             cur.close()
-            cur.commit()
+            con.commit()
 
         try:
             cur = con.cursor()
@@ -785,13 +786,13 @@ def deleteMe(customer_id, con):
                 return None
         finally:
             cur.close()
-            cur.commit()
+            con.commit()
     
 def Customer(customer_id, password):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="DNA",
+        password="dna",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 

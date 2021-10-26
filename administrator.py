@@ -1,6 +1,7 @@
 import pymysql
 import mysql.connector as SQLC
 import subprocess as sp
+from prettytable import PrettyTable
 # from customer_interface import *
 
 def searchList(L, value):
@@ -72,17 +73,28 @@ def DeleteProduct(con):
 def display(column_name, con):
     cur = con.cursor()
     if(column_name == "employees"):
+        x = PrettyTable()
+        x.field_names = ["ID", "Name", "Experience", "Salary", "Leaves used", "Hours/month"]
         cur.execute("select * from employees")
         print("Employees list")
-        for obj in cur:
-            print(obj["name"] + "\t" + obj["role"] + "\t" + str(obj["id"]) + "\t" + obj["team"])
+        for row in cur.fetchall():
+            x.add_row([row["id"], row["name"], row["experience"], row["salary"], row["no_of_leaves_used"], row["hours_spent_a_month"]])
+        print(x)
+        # for obj in cur:
+        #     print(obj["name"] + "\t" + obj["role"] + "\t" + str(obj["id"]) + "\t" + obj["team"])
     
     cur = con.cursor()
     if(column_name == "products"):
+        x = PrettyTable()
+        x.field_names = ["Code", "Name", "Type", "Brand", "Cost", "Sales", "Profit", "Launch date", "Weekly production"]
         cur.execute("select * from products")
         print("Products Info List")
-        for obj in cur:
-            print(obj["name"] + "\t" + str(obj["code"]) + "\t" + str(obj["cost"]) + "\t" + str(obj["sales"]) + "\t" + str(obj["profit"]))
+        for row in cur.fetchall():
+            x.add_row([row["code"], row["name"], row["type"], row["brand"], row["cost"], row["sales"], row["profit"], row["launch_date"], row["weekly_production"]])
+                        # print(str(row['code']) + " " + row['name'] + " " + row['type'] + " " + row['brand'] + " " + str(row['cost']) + " " + str(row['sales']) + " " + str(row['profit']))
+        print(x)
+        # for obj in cur:
+        #     print(obj["name"] + "\t" + str(obj["code"]) + "\t" + str(obj["cost"]) + "\t" + str(obj["sales"]) + "\t" + str(obj["profit"]))
 
 def Update(con):
     print("Option 1: Employee Data")
@@ -103,12 +115,18 @@ def UpdateProductsInfo(con):
     l = []
     for obj in cur:
         l.append(obj["id"])
-        print(obj)    
-    print(l)
+        # print(obj)    
+    # print(l)
+    # x = PrettyTable()
+    # x.field_names = ["Code", "Name", "Type", "Brand", "Cost", "Sales", "Profit", "Launch date", "Weekly production"]
+    # for row in cur.fetchall():
+    #     x.add_row([row["code"], row["name"], row["type"], row["brand"], row["cost"], row["sales"], row["profit"], row["launch_date"], row["weekly_production"]])
+    #     print(x)
+    display("products",con)
     if not searchList(l,options):
         print("No Product with entered id")
         print("Find id(s) of product(s) here:")
-        print(l)
+        display("products",con)
         UpdateProductsInfo(con)
     else:
         parameter = input("Enter the parameter to be updated: ")
@@ -116,34 +134,44 @@ def UpdateProductsInfo(con):
         l = []
         for obj in cur:
            l = list(obj.keys())
-        print(l)
+        # print(l)
 
         if not searchList(l,parameter):
             print("Invalid parameter")
             print("Valid parameters: ")
-            print(l)
+            display("products",con)
         else:
             value = input("Enter the new value: ")
-            query2 = "update products set " + parameter + " = " + value + " where id = " + str(options)
-            print(query2)
+            query2 = "update products set " + parameter + " = '" + value + "' where id = " + str(options) + ";"
+            # print(query2)
             cur.execute(query2)
             con.commit()
 
 def UpdateEmployeeInfo(con):
     try:
         cur = con.cursor()
-        options = int(input("Enter id of Employee"))
-        query1 = "select * from employees"
+        options = int(input("Enter id of Employee: "))
+        # x = PrettyTable()
+        # x.field_names = ["ID", "Name", "Experience", "Salary", "Leaves used", "Hours/month"]
+        query1 = "select * from employees where id = " + str(options) + ";"
         cur.execute(query1)
-        l = []
-        for obj in cur:
-            l.append(obj["id"])
-            print(obj)    
-        print(l)
-        if not searchList(l,options):
+        # l = []
+        # for obj in cur:
+        #     l = list(obj.keys())
+        print("Employees list")
+        sth = cur.fetchall()
+        # if(sth == []):
+        #     print("No employee with entered id")
+        #     print("Find id(s) of employee(s) here:")
+        #     display("employees",con)
+        #     UpdateEmployeeInfo(con)
+        # for row in cur.fetchall():
+        #     x.add_row([row["id"], row["name"], row["experience"], row["salary"], row["no_of_leaves_used"], row["hours_spent_a_month"]])
+        display("employees",con)
+        if (sth == None):
             print("No Employee with entered id")
             print("Find id(s) of employee(s) here:")
-            print(l)
+            display("employees",con)
             UpdateEmployeeInfo(con)
         else:
             parameter = input("Enter the parameter to be updated: ")
@@ -151,16 +179,16 @@ def UpdateEmployeeInfo(con):
             l = []
             for obj in cur:
                 l = list(obj.keys())
-            print(l)
+            # print(l)
 
             if not searchList(l,parameter):
                 print("Invalid parameter")
                 print("Valid parameters: ")
-                print(l)
+                display("employees",con)
             else:
                 value1 = input("Enter the new value: ")
                 query2 = "update employees set " + parameter + " = '" + value1 + "' where id = " + str(options) + ";"
-                print(query2)
+                # print(query2)
                 cur.execute(query2)
                 con.commit()
     except Exception as e:
@@ -193,7 +221,7 @@ def AddEmployee(con):
     info["hours_spent"] = 0;
     
     query = "Insert into employees VALUES('%d', '%s', '%s', '%s', '%d', '%d', '%d', '%d')" % (info["id"], info["name"], info["role"], info["team"], info["experience"], info["salary"], info["leaves_used"], info["hours_spent"])
-    print(query)
+    # print(query)
     cur.execute(query)
     con.commit()
     
@@ -352,11 +380,11 @@ def Administrator():
         print("Option 2: Update Info")
         print("Option 3: Add info")
         print("Option 4: Delete data/Fire Employee")
-        print("Option 4: Back Page")
+        print("Option 5: Back Page")
         
         user_query =int(input("Enter the option:  "))
         if(user_query == 1):
-            ShowInfo()
+            ShowInfo(con)
         elif(user_query == 2):
             Update(con)
         elif(user_query == 3):
