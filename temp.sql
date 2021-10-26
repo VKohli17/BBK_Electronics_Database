@@ -105,6 +105,7 @@ DROP TABLE IF EXISTS `customers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `password` varchar(50) DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `premium_customer` varchar(50) DEFAULT NULL,
@@ -124,7 +125,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
+INSERT INTO `customers` VALUES (1,'a','Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'b','Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'DNA','Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,8 +377,9 @@ CREATE TABLE `products` (
   `weekly_production` int DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `brand` varchar(50) DEFAULT NULL,
+  `sub_brand` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +388,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','oppo');
+INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','OnePlus','Nord');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,8 +509,6 @@ CREATE TABLE `smartphone` (
   `soc` varchar(50) DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `display` varchar(50) DEFAULT NULL,
-  `brand_name` varchar(50) DEFAULT NULL,
-  `sub_brand_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -731,4 +731,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-26  9:25:06
+-- Dump completed on 2021-10-26 14:15:42
