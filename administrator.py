@@ -53,7 +53,7 @@ def DeleteProduct(con):
     cur.execute("select * from products")
     l = []
     for obj in cur:
-        l.append(obj["id"])
+        l.append(obj["code"])
     code = int(input("Enter the id of the Product to be deleted: "))
     if not searchList(l,code):
         print("No products found")
@@ -114,7 +114,7 @@ def UpdateProductsInfo(con):
     cur.execute(query1)
     l = []
     for obj in cur:
-        l.append(obj["id"])
+        l.append(obj["code"])
         # print(obj)    
     # print(l)
     # x = PrettyTable()
@@ -142,7 +142,7 @@ def UpdateProductsInfo(con):
             display("products",con)
         else:
             value = input("Enter the new value: ")
-            query2 = "update products set " + parameter + " = '" + value + "' where id = " + str(options) + ";"
+            query2 = "update products set " + parameter + " = '" + value + "' where code = " + str(options) + ";"
             # print(query2)
             cur.execute(query2)
             con.commit()
@@ -291,7 +291,7 @@ def AddSmartPhone(con):
     try:
         cur = con.cursor()
         cur.execute("select MAX(code) as new_product from products;")
-        pcode = cur.fetchone()["code"]
+        pcode = cur.fetchone()["new_product"]
     except pymysql.Error as e:
         try:
             print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
