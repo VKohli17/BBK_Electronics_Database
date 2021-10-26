@@ -64,7 +64,7 @@ CREATE TABLE `brands` (
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
-INSERT INTO `brands` VALUES ('OnePlus','Carl Pei','ABC','2011-09-09',NULL,NULL,NULL),('Oppo','ABCD','ABCDE','2007-09-09',NULL,NULL,NULL);
+INSERT INTO `brands` VALUES ('oneplus','Carl Pei','ABC','2011-09-09',4.5,6.5,3.5),('oppo','ABCD','ABCDE','2007-09-09',3,2.5,2.1),('vivo','no idea','also no idea','2008-03-06',2.5,4.5,1.4);
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `customers` (
   `dob` date DEFAULT NULL,
   `age` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
+INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19),(4,'Harry','Potter','yes','male','London','idk lol','England','1980-07-31',41),(5,'RJ','Lupin','yes','male','London','somewhere','england','1960-02-14',61),(6,'Remus','Lupin','n','male','dhwfh','akfhw','fwkgfuw','1945-12-10',75);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,6 @@ CREATE TABLE `earphone` (
   `product_code` int NOT NULL,
   `buds_battery` int DEFAULT NULL,
   `case_battery` int DEFAULT NULL,
-  `dimensions` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
   `driver_size` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
@@ -155,6 +154,7 @@ CREATE TABLE `earphone` (
 
 LOCK TABLES `earphone` WRITE;
 /*!40000 ALTER TABLE `earphone` DISABLE KEYS */;
+INSERT INTO `earphone` VALUES (8,4,16,40,6,'53',20,100);
 /*!40000 ALTER TABLE `earphone` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,7 +317,6 @@ DROP TABLE IF EXISTS `powerbank`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `powerbank` (
   `product_code` int NOT NULL,
-  `dimensions` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `battery_size` int DEFAULT NULL,
@@ -333,6 +332,7 @@ CREATE TABLE `powerbank` (
 
 LOCK TABLES `powerbank` WRITE;
 /*!40000 ALTER TABLE `powerbank` DISABLE KEYS */;
+INSERT INTO `powerbank` VALUES (9,300,NULL,10000,150,2);
 /*!40000 ALTER TABLE `powerbank` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +378,7 @@ CREATE TABLE `products` (
   `brand` varchar(50) DEFAULT NULL,
   `sub_brand` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -387,7 +387,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','oppo');
+INSERT INTO `products` VALUES (1,'Nord 2 5G',30000,1000000,5000,'2021-05-05',50000,'smartphone','oneplus','nord'),(2,'IQOO 7 5G',32000,1500000,3000,'2021-03-05',30000,'smartphone','vivo','iqoo'),(3,'Realme GT ME',28000,500000,3000,'2021-07-05',20000,'smartphone','oppo','realme'),(4,'X70 Pro',50000,100000,7000,'2021-09-05',10000,'smartphone','vivo',NULL),(5,'F19',20000,1000000,3000,'2021-01-05',20000,'smartphone','oppo',NULL),(6,'9R',40000,800000,6000,'2021-02-05',30000,'smartphone','oneplus',NULL),(7,'Dumb speaker',5000,100000,1000,'2021-06-06',5000,'speaker','oppo',NULL),(8,'Buds Air ANC',4500,300000,500,'2021-08-03',10000,'earphone','oppo','realme'),(9,'Powerbank 2',1200,200000,200,'2021-07-03',7000,'powerbank','oppo','realme');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,7 +502,6 @@ CREATE TABLE `smartphone` (
   `main_cam_res` int DEFAULT NULL,
   `charger_wattage` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
-  `dimensions` int DEFAULT NULL,
   `frame_material` varchar(50) DEFAULT NULL,
   `glass_spec` varchar(50) DEFAULT NULL,
   `soc` varchar(50) DEFAULT NULL,
@@ -518,6 +517,7 @@ CREATE TABLE `smartphone` (
 
 LOCK TABLES `smartphone` WRITE;
 /*!40000 ALTER TABLE `smartphone` DISABLE KEYS */;
+INSERT INTO `smartphone` VALUES (1,4500,50,65,196,'plastic','GorillaGlass6','Dimensity1200',NULL,'90hz 6.7 OLED'),(2,4500,50,66,190,'plastic','GorillaGlass5','SD 870',NULL,'120hz 6.7 OLED'),(3,4400,64,65,175,'plastic','GorillaGlass5','SD 778G',NULL,'120hz 6.4 OLED'),(4,4000,108,65,205,'aluminium','GorillaGlassVictus','SD 870','68','120hz 6.6 OLED'),(5,4200,64,30,160,'aluminium','GorillaGlass3','Dimensity800U',NULL,'60hz 6.3 OLED'),(6,4300,48,65,160,'aluminium','GorillaGlass6','SD 870',NULL,'120hz 6.6 OLED');
 /*!40000 ALTER TABLE `smartphone` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -531,7 +531,6 @@ DROP TABLE IF EXISTS `speaker`;
 CREATE TABLE `speaker` (
   `product_code` int NOT NULL,
   `battery_life` int DEFAULT NULL,
-  `dimensions` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `battery_size` int DEFAULT NULL,
@@ -547,6 +546,7 @@ CREATE TABLE `speaker` (
 
 LOCK TABLES `speaker` WRITE;
 /*!40000 ALTER TABLE `speaker` DISABLE KEYS */;
+INSERT INTO `speaker` VALUES (7,12,1600,'56',7000,10,4);
 /*!40000 ALTER TABLE `speaker` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -730,4 +730,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-26  9:25:06
+-- Dump completed on 2021-10-26 12:23:46
