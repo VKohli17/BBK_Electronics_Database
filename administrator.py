@@ -9,13 +9,73 @@ def searchList(L, value):
             return True
     return False
 
+def delete(con):
+    print("Option 1: Fire an Employee")
+    print("option 2: Delete a product")
+    print("option 3: Back Page")
+    ch = int(input("Enter the option: "))
+    if(ch==3):
+        return
+    elif(ch==1):
+        FireEmployee(con)
+    elif(ch==2):
+        DeleteProduct(con)
+    else:
+        print("Invalid Argument")
+        delete(con)
+
+def FireEmployee(con):
+    cur = con.cursor()
+    cur.execute("select * from employees")
+    l = []
+    for obj in cur:
+        l.append(obj["id"])
+    ssn = int(input("Enter the id of the employee to be fired: "))
+    if not searchList(l,ssn):
+        print("No employees found")
+        print("The valid ids of employees are: ")
+        print(l)
+        FireEmployee(con)
+    else:
+        query = "Delete from employees where id = '%d'" % (ssn)
+        try:
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print("Failed to delete Employee ")
+            print(">>>>>>>>>",e)
+    return
+        
+
+def DeleteProduct(con):
+    cur = con.cursor()
+    cur.execute("select * from products")
+    l = []
+    for obj in cur:
+        l.append(obj["id"])
+    code = int(input("Enter the id of the Product to be deleted: "))
+    if not searchList(l,code):
+        print("No products found")
+        print("The valid ids of products are: ")
+        print(l)
+        DeleteProduct(con)
+    else:
+        query = "Delete from products where code = '%d'" % (code)
+        try:
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print("Failed to delete Product ")
+            print(">>>>>>>>>",e)
+    return
+
 def display(column_name, con):
     cur = con.cursor()
     if(column_name == "employees"):
         cur.execute("select * from employees")
         print("Employees list")
         for obj in cur:
-            print(obj["name"] + "\t" + obj["role"])
+            print(obj["name"] + "\t" + obj["role"] + "\t" + str(obj["id"]) + "\t" + obj["team"])
     
     cur = con.cursor()
     if(column_name == "products"):
@@ -49,6 +109,7 @@ def UpdateProductsInfo(con):
         print("No Product with entered id")
         print("Find id(s) of product(s) here:")
         print(l)
+        UpdateProductsInfo(con)
     else:
         parameter = input("Enter the parameter to be updated: ")
         cur.execute(query1)
@@ -83,6 +144,7 @@ def UpdateEmployeeInfo(con):
             print("No Employee with entered id")
             print("Find id(s) of employee(s) here:")
             print(l)
+            UpdateEmployeeInfo(con)
         else:
             parameter = input("Enter the parameter to be updated: ")
             cur.execute(query1)
@@ -157,32 +219,91 @@ def AddProduct(con):
         AddProduct(con)
     
 def AddSmartPhone(con):
+    info = {}
+    info["name"] = input("Product Name: ")
+    info["cost"] = int(input("Cost: "))
+    info["making"] - int(input("Manufacturinig_Cost: "))
+    info["battery"] = int(input("Battery: "))
+    info["camera"] = int(input("Camera Resolution: "))
+    info["charger"] = int(input("Charger Wattage: "))
+    info["weight"] = int(input("Product Weight: "))
+    info["launch_date"] = input("Launch Date: ")
+    info["dimensions"] = int(input("Length: "))
+    #info["frame"] = input("Frame Material: ")
+    info["frame"] = input("Frame Material: ")
+    info["glass"] = input("Glass Material: ")
+    info["soc"] = input("SOC: ")
+    info["IP_rating"] = input("IP Rating: ")
+    info["display"] = input("Display: ")
+    info["brand"] = input("Brand: ")
+    info["sub_brand"] = input("Sub-Brand ")
+    profit = info["cost"] - info["making"]
+    query2 = "Insert into products (name, cost, sales, profit, launch_date, weekly_production, type, brand, sub_brand) values ('{}', {}, {}, {}, '{}', {}, '{}', '{}', '{}')".format(info["name"], info["cost"], 0,profit,info["launch_date"],10000,"Smartphone",info["brand"], info["sub_brand"])
     try:
         cur = con.cursor()
-        info = {}
-        info["code"] = int(input("Product Code: "))
-        info["battery"] = int(input("Battery: "))
-        info["camera"] = int(input("Camera Resolution: "))
-        info["charger"] = int(input("Charger Wattage: "))
-        info["weight"] = int(input("Product Weight: "))
-        info["dimensions"] = int(input("Length: "))
-        #info["frame"] = input("Frame Material: ")
-        info["frame"] = input("Frame Material: ")
-        info["glass"] = input("Glass Material: ")
-        info["soc"] = input("SOC: ")
-        info["IP_rating"] = input("IP Rating: ")
-        info["display"] = input("Display: ")
-        info["brand"] = input("Brand: ")
-        info["sub_brand"] = input("Sub-Brand ")
-        query = "Insert into smartphone VALUES ('%d', '%d','%d','%d','%d','%d','%s','%s','%s','%s','%s','%s','%s')" %(info["code"],info["battery"],info["camera"],info["charger"], info["weight"],info["dimensions"],info["frame"],info["glass"],info["soc"],info["IP_rating"],info["display"],info["brand"],info["sub_brand"])
-        cur.execute(query)
-        con.commit()
-        print("Inserted into the database")
+        cur.execute(query2)
+    except pymysql.Error as e:
+        try:
+            con.rollback()
+            print("Failed to Insert into database")
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
     
-    except Exception as e:
-        con.rollback()
-        print("Failed to Insert into database")
-        print(">>>>>>>",e)
+    try:
+        cur = con.cursor()
+        cur.execute("select MAX(code) as new_product from products;")
+        pcode = cur.fetchone()["code"]
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+
+    query = "Insert into smartphone values ({}, {}, {}, {}, {}, {}, '{}', '{}', '{}', '{}', '{}')".format(pcode,info["battery"],info["camera"],info["charger"], info["weight"],info["dimensions"],info["frame"],info["glass"],info["soc"],info["IP_rating"],info["display"])
+
+    try:
+        cur = con.cursor()
+        cur.execute(query)
+        print("Inserted into the database")
+    except pymysql.Error as e:
+        try:
+            con.rollback()
+            print("Failed to Insert into database")
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+        con.commit()
     return
 
 def AddSpeaker(con):
@@ -197,12 +318,27 @@ def AddEarphones(con):
     print("Didn't implement this functionality: Try Adding Smartphone")
     return        
 
+def ShowInfo(con):
+    print("Option 1: Products")
+    print("Option 2: Employees")
+    print("Option 3: Back Page")
+    ch = int(input("Enter the option"))
+    if(ch==3):
+        return
+    elif(ch==1):
+        display("products",con)
+    elif(ch==2):
+        display("employees",con)
+    else:
+        print("Invalid Argument")
+        ShowInfo(con)
+
 def Administrator():
     con = pymysql.connect(host='localhost',
-        port=30306,
+        port=8080,
         user="root",
-        password="dna",
-        db='bbke',
+        password="mavericks",
+        db='bbkelec',
         cursorclass=pymysql.cursors.DictCursor)
 
     if(con.open):
@@ -212,30 +348,22 @@ def Administrator():
         exit
         
     while(1):
-        user_query =input("Enter a prompt:  ").split()
-        if(len(user_query)>0):
-            if(user_query[0] == "exit"):
-                break
-            elif(user_query[0] == "show"):
-                if(len(user_query) > 1):
-                    if(user_query[1] == "employees"):
-                        print("executing")
-                        display("employees",con)
-                    elif(user_query[1] == "products"):
-                        #show(1,"products",con)
-                        display("products",con)
-                    else:
-                        print("Invalid Arguements 1")
-                else:
-                    print("Insufficient Arguements")
-            
-            elif(user_query[0] == "Update"):
-                Update(con)
-            elif(user_query[0] == "Add"):
-                Add(con)    
-                    
-            
-            
-            else:
-                print("Invalid Arguements 2") 
-                        
+        print("Option 1: Show info")
+        print("Option 2: Update Info")
+        print("Option 3: Add info")
+        print("Option 4: Delete data/Fire Employee")
+        print("Option 4: Back Page")
+        
+        user_query =int(input("Enter the option:  "))
+        if(user_query == 1):
+            ShowInfo()
+        elif(user_query == 2):
+            Update(con)
+        elif(user_query == 3):
+            Add(con)
+        elif(user_query == 4):
+            delete(con)
+        elif(user_query == 5):
+            return
+        else:
+            print("Invalid Argument")

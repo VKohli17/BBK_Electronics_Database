@@ -376,7 +376,6 @@ CREATE TABLE `products` (
   `weekly_production` int DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `brand` varchar(50) DEFAULT NULL,
-  `sub_brand` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -508,6 +507,8 @@ CREATE TABLE `smartphone` (
   `soc` varchar(50) DEFAULT NULL,
   `ip_rating` char(2) DEFAULT NULL,
   `display` varchar(50) DEFAULT NULL,
+  `brand_name` varchar(50) DEFAULT NULL,
+  `sub_brand_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
