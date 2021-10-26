@@ -110,14 +110,14 @@ def show(column_name, con):
                 print("Invalid Argument")
         elif(column_name == "finances"):
             x = PrettyTable()
-            x.field_names = ["Brand", "YoY growth", "QoQ growth", "Stock price"]
+            x.field_names = ["Brand", "YoY growth", "QoQ growth", "Market share"]
             # ask user if they want to sort by stock_price, yoy_growth or qoq_growth
-            order = input("Order by: (stock_price/yoy_growth/qoq_growth) ")
-            if (order == "stock_price" or order == "yoy_growth" or order == "qoq_growth"):
-                cur.execute("SELECT * FROM stock_of ORDER BY " + order + ";")
+            order = input("Order by: (market_share/yoy_growth/qoq_growth) ")
+            if (order == "market_share" or order == "yoy_growth" or order == "qoq_growth"):
+                cur.execute("SELECT brand_name,yoy_growth,qoq_growth,market_share FROM brands ORDER BY " + order + ";")
                 # print the results in a table
                 for row in cur.fetchall():
-                    x.add_row([row["brand"], row["yoy_growth"], row["qoq_growth"], row["stock_price"]])
+                    x.add_row([row["brand_name"], row["yoy_growth"], row["qoq_growth"], row["market_share"]])
                 print(x)
             # else incorrect input
             else:

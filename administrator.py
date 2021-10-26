@@ -250,13 +250,11 @@ def AddSmartPhone(con):
     info = {}
     info["name"] = input("Product Name: ")
     info["cost"] = int(input("Cost: "))
-    info["making"] - int(input("Manufacturinig_Cost: "))
     info["battery"] = int(input("Battery: "))
     info["camera"] = int(input("Camera Resolution: "))
     info["charger"] = int(input("Charger Wattage: "))
     info["weight"] = int(input("Product Weight: "))
     info["launch_date"] = input("Launch Date: ")
-    info["dimensions"] = int(input("Length: "))
     #info["frame"] = input("Frame Material: ")
     info["frame"] = input("Frame Material: ")
     info["glass"] = input("Glass Material: ")
@@ -265,8 +263,8 @@ def AddSmartPhone(con):
     info["display"] = input("Display: ")
     info["brand"] = input("Brand: ")
     info["sub_brand"] = input("Sub-Brand ")
-    profit = info["cost"] - info["making"]
-    query2 = "Insert into products (name, cost, sales, profit, launch_date, weekly_production, type, brand, sub_brand) values ('{}', {}, {}, {}, '{}', {}, '{}', '{}', '{}')".format(info["name"], info["cost"], 0,profit,info["launch_date"],10000,"Smartphone",info["brand"], info["sub_brand"])
+    info["profit"] = input("Profit: ")
+    query2 = "Insert into products (name, cost, sales, profit, launch_date, weekly_production, type, brand, sub_brand) values ('{}', {}, {}, {}, '{}', {}, '{}', '{}', '{}')".format(info["name"], info["cost"], 0, info["profit"], info["launch_date"],10000,"Smartphone",info["brand"], info["sub_brand"])
     try:
         cur = con.cursor()
         cur.execute(query2)
@@ -308,7 +306,7 @@ def AddSmartPhone(con):
     finally:
         cur.close()
 
-    query = "Insert into smartphone values ({}, {}, {}, {}, {}, {}, '{}', '{}', '{}', '{}', '{}')".format(pcode,info["battery"],info["camera"],info["charger"], info["weight"],info["dimensions"],info["frame"],info["glass"],info["soc"],info["IP_rating"],info["display"])
+    query = "Insert into smartphone values ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}', '{}')".format(pcode,info["battery"],info["camera"],info["charger"], info["weight"],info["frame"],info["glass"],info["soc"],info["IP_rating"],info["display"])
 
     try:
         cur = con.cursor()
