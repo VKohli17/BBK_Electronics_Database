@@ -3,6 +3,7 @@ import mysql.connector as SQLC
 import subprocess as sp
 from customer_interface import *
 from administrator import *
+from researcher import *
 while(1):
     tmp = sp.call('clear',shell=True)
     
@@ -38,6 +39,8 @@ while(1):
             Administrator()
         
     elif(ch==4):
+        Username = input("Username: ")
+        Password = input("Password: ")
         Researcher()
 
     elif(ch==5):
