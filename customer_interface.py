@@ -58,25 +58,18 @@ def editmyReview(customer_id, con):
         print("Invalid ID")
 
 def editMe(customer_id, con):
-    fname = input("Please enter your First Name: ")
-    lname = input("Please enter your Last Name: ")
-    prem = input("Are you a Premium Customer(yes/no): ").lower()
-    gender = input("Please enter your preferred gender: ")
-    city = input("Please enter your City name: ")
-    state = input("Please enter your State name: ")
-    country = input("Please enter your Country name: ")
-    dob = input("Please enter your Date of Birth in the form YYYY-MM-DD: ")
-    # dobcopy = dob[:]
-    y,m,d = dob.split('-')
-    birth_date = datetime.date(int(y), int(m), int(d))
-    # get datetime.date for today
-    today = datetime.date.today()
-    age = int((today - birth_date).days / 365.2425)
-
-    cur = con.cursor()
+    row = {}
     try:
-        cur.execute("update customers s (first_name, last_name, premium_customer, gender, city, state, country, dob, age) values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {})".format(fname, lname, prem, gender, city, state, country, dob, age))
-        # where customer_id matches, change all parameters to newly input ones
+        cur = con.cursor()
+        cur.execute("select * from customers where id = {}".format(customer_id))
+        row = cur.fetchone().copy()
+        table = PrettyTable()
+        temp = []
+        for key in row.keys():
+            temp.append(key)
+        table.field_names = temp
+        table.add_row(list(row.values()))
+        print(table)
     except pymysql.Error as e:
         try:
             print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
@@ -92,8 +85,57 @@ def editMe(customer_id, con):
             return None
     finally:
         cur.close()
-        con.commit()
 
+    changedCol = input("Please enter the column name you wish to change: ")
+    newValue = input("Please enter the new value: ")
+
+    if(changedCol in row.keys() and changedCol != "dob" and changedCol != "id" and changedCol != "age"):
+        try:
+            cur = con.cursor()
+            cur.execute("update customers set {} = '{}' where id = {}".format(changedCol, newValue, customer_id))
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+            con.commit()
+    elif(changedCol == "dob"):
+        try:
+            cur = con.cursor()
+            y,m,d = str(newValue).split('-')
+            birth_date = datetime.date(int(y), int(m), int(d))
+            # get datetime.date for today
+            today = datetime.date.today()
+            age = int((today - birth_date).days / 365.2425)
+            cur.execute("update customers set {} = '{}', age = '{}' where id = {}".format(changedCol, newValue, age, customer_id))
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+            con.commit()
+    else:
+        print("Invalid column name")
 
 def showmy(customer_id, column_name, con):
     cur = con.cursor()
@@ -770,7 +812,7 @@ def deleteMe(customer_id, con):
 
         try:
             cur = con.cursor()
-            cur.execute("delete from customer where id = {}".format(customer_id))
+            cur.execute("delete from customers where id = {}".format(customer_id))
         except pymysql.Error as e:
             try:
                 print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
@@ -887,9 +929,11 @@ def Customer(customer_id, password):
         if(ch == 10):
             tmp = sp.call('clear',shell=True)
             editMe(customer_id, con)
+
         if(ch == 11):
             tmp = sp.call('clear',shell=True)
             deleteMe(customer_id, con)
+            break
         if(ch == 12):
             tmp = sp.call('clear',shell=True)
             break
