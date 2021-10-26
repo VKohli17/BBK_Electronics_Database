@@ -123,7 +123,7 @@ def createCustomer():
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="DNA",
+        password="dna",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
     pw = input("Please enter your password: ")
@@ -636,7 +636,7 @@ def Customer(customer_id, password):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="DNA",
+        password="dna",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 
@@ -723,4 +723,4 @@ def Customer(customer_id, password):
             else:
                 print("Invalid Argument")
 
-Customer(3)
+# Customer(3)
