@@ -10,34 +10,38 @@ while(1):
     print("2. Login as Inventory Manager")
     print("3. Login as Administrator")
     print("4. Login as Researcher")
-    print("5. Exit")
+    print("5. Create Customer Account")
+    print("6. Exit")
     
     ch = int(input("Enter Choice> "))
-    if(ch==5):
+    if(ch==6):
         exit()
     
     
     tmp = sp.call('clear', shell=True)
     
-    Username = input("Username: ")
-    Password = input("Password: ")
     
-    if(Username!="admin" or Password!="password"):
-        print("Invalid Username or Password")
-        exit()
+    
+    
     
     if(ch==1):
         print()
         Customer(1)
         
-    if(ch==2):
+    elif(ch==2):
         InventoryManager()
     
-    if(ch==3):
-        Administrator()
+    elif(ch==3):
+        Username = input("Username: ")
+        Password = input("Password: ")
+        if(Username!="admin" or Password!="password"):
+            Administrator()
         
-    if(ch==4):
+    elif(ch==4):
         Researcher()
+
+    elif(ch==5):
+        CreateCustomer()
     
     
 
