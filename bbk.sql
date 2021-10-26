@@ -125,7 +125,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
+INSERT INTO `customers` VALUES (1,'a','Rohit','Sharma','Yes','Male','Mumbai','Maha','In','0000-00-00',32),(2,'b','Virat','Kohli','Yes','Male','Bangalore','Karnataka','In','0000-00-00',32),(3,'DNA','Mugun','Kottu','yes','Male','Chennai','Tamil Nadu','India','2002-08-22',19);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,7 +388,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','oppo');
+INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','OnePlus', 'Nord');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
