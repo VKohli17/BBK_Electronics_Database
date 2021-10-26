@@ -3,7 +3,7 @@ import datetime
 import mysql.connector as SQLC
 import subprocess as sp
 
-def show(customer_id, column_name, con):
+def showmy(customer_id, column_name, con):
     cur = con.cursor()
     try:
         if(column_name == "products"):
@@ -29,8 +29,8 @@ def show(customer_id, column_name, con):
         except ValueError as e:
             print(e)
             return None
-        finally:
-            cur.close()
+    finally:
+        cur.close()
 
 def createCustomer():
     con = pymysql.connect(host='localhost',
@@ -72,9 +72,8 @@ def createCustomer():
         except ValueError as e:
             print(e)
             return None
-        finally:
-            cur.close()
-            con.close()
+    finally:
+        cur.close()
     try:
         retrieve_id.execute("select MAX(id) as CID from customers;")
         print("Your Customer ID to be used for login is: {}".format(retrieve_id.fetchone()["CID"]))
@@ -91,9 +90,319 @@ def createCustomer():
         except ValueError as e:
             print(e)
             return None
+    finally:
+        cur.close()
+        con.close()
+
+def buyProduct(customer_id, con):
+    pname = input("Please enter the name of the product you want to buy: ")
+    try:
+        cur = con.cursor()
+        codes = []
+        cur.execute("select code, name from products where name like '%{}%'".format(pname))
+        print("Code\tProduct Name")
+        for obj in cur:
+            print (str(obj["code"]) + "\t" + obj["name"])
+            codes.append(obj["code"])
+        code = int(input("Please enter the code of the product you want to buy: "))
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+    if(code in codes):
+        try:
+            cur = con.cursor()
+            cur.execute("insert into owns_a (customer_id, product_id) values ({}, {})".format(customer_id, code))
+            con.commit()
+            print("Product Bought")
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
         finally:
             cur.close()
-            con.close()
+    else:
+        print("Invalid Code")
+
+def createReview(customer_id, con):
+    pname = input("Please enter the name of the product you want to review: ")
+    try:
+        cur = con.cursor()
+        codes = []
+        cur.execute("select products.code, products.name from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customers.id = {} and products.name like '%{}%';".format(customer_id, pname))
+        print("Code\tProduct Name")
+        for obj in cur:
+            print (str(obj["code"]) + "\t" + obj["name"])
+            codes.append(obj["code"])
+        code = int(input("Please enter the code of the product you want to review: "))
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+    if(code in codes):
+        stars = int(input("Please enter the number of stars you want to give to the product: "))
+        if(stars > 5 or stars < 1):
+            print("Invalid Stars")
+            return None
+        review = input("Please enter your review:\n")
+        try:
+            cur = con.cursor()
+            cur.execute("insert into reviews (stars, review) values ({}, '{}');".format(stars, review))
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+            con.commit()
+        review_id = 0
+        try:
+            cur = con.cursor()
+            cur.execute("select MAX(id) as review_id from reviews;".format(stars, review))
+            review_id = cur.fetchone()["review_id"]
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+        try:
+            cur = con.cursor()
+            cur.execute("insert into review values ({}, {}, {});".format(customer_id, code, review_id))
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+            con.commit()
+    else:
+        print("Invalid Code")
+
+def showReviews(con):
+    pname = input("Please enter the name of the product you want to see reviews of: ")
+    try:
+        cur = con.cursor()
+        codes = []
+        cur.execute("select products.code, products.name from products where products.name like '%{}%';".format(pname))
+        print("Code\tProduct Name")
+        for obj in cur:
+            print (str(obj["code"]) + "\t" + obj["name"])
+            codes.append(obj["code"])
+        code = int(input("Please enter the code of the product you want to see reviews of: "))
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+    if(code in codes):
+        try:
+            cur = con.cursor()
+            cur.execute("select reviews.stars, reviews.review from reviews join review on review.review_id = reviews.id join products on review.product_id = {};".format(code))
+            print("Stars\tReview")
+            for obj in cur:
+                print (str(obj["stars"]) + "\t" + obj["review"])
+        except pymysql.Error as e:
+            try:
+                print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+                return None
+            except IndexError:
+                print("MySQL Error: %s" % str(e))
+                return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
+        finally:
+            cur.close()
+    else:
+        print("Invalid Code")
+
+def showDevices(con):
+    try:
+        cur = con.cursor()
+        print("Smartphones:")
+        cur.execute("select name, cost, brand from products where type='smartphone';")
+        print("Name\tCost\tBrand")
+        for obj in cur:
+            print (obj["name"] + "\t" + str(obj["cost"]) + "\t" + obj["brand"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+
+    try:
+        cur = con.cursor()
+        print("Earphones:")
+        cur.execute("select name, cost, brand from products where type='earphone';")
+        print("Name\tCost\tBrand")
+        for obj in cur:
+            print (obj["name"] + "\t" + str(obj["cost"]) + "\t" + obj["brand"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+
+    try:
+        cur = con.cursor()
+        print("Powerbanks:")
+        cur.execute("select name, cost, brand from products where type='powerbank';")
+        print("Name\tCost\tBrand")
+        for obj in cur:
+            print (obj["name"] + "\t" + str(obj["cost"]) + "\t" + obj["brand"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+
+    try:
+        cur = con.cursor()
+        print("Speakers:")
+        cur.execute("select name, cost, brand from products where type='speaker';")
+        print("Name\tCost\tBrand")
+        for obj in cur:
+            print (obj["name"] + "\t" + str(obj["cost"]) + "\t" + obj["brand"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
+
+    try:
+        cur = con.cursor()
+        print("TVs:")
+        cur.execute("select name, cost, brand from products where type='tv';")
+        print("Name\tCost\tBrand")
+        for obj in cur:
+            print (obj["name"] + "\t" + str(obj["cost"]) + "\t" + obj["brand"])
+    except pymysql.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+            return None
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+            return None
+        except TypeError as e:
+            print(e)
+            return None
+        except ValueError as e:
+            print(e)
+            return None
+    finally:
+        cur.close()
 
 
 
@@ -101,7 +410,7 @@ def Customer(customer_id):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="dna",
+        password="DNA",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 
@@ -130,8 +439,8 @@ def Customer(customer_id):
         except ValueError as e:
             print(e)
             return None
-        finally:
-            cur.close()
+    finally:
+        cur.close()
 
     while(1):
         user_query = input("Enter a prompt: ").split()
@@ -140,16 +449,27 @@ def Customer(customer_id):
                 con.close()
                 return
             elif(user_query[0] == "show"):
-                if(len(user_query) > 1):
-                    if(user_query[1] == "devices"):
-                        show(customer_id, "products", con)
-                    elif(user_query[1] == "reviews"):
-                        show(customer_id, "reviews", con)
+                if(len(user_query) > 2):
+                    if(user_query[2] == "devices" and user_query[1] == "my"):
+                        showmy(customer_id, "products", con)
+                    elif(user_query[2] == "reviews" and user_query[1] == "my"):
+                        showmy(customer_id, "reviews", con)
+                    else:
+                        print("Invalid Arguments")
+                elif(len(user_query) > 1):
+                    if(user_query[1] == "reviews"):
+                        showReviews(con)
+                    elif(user_query[1] == "devices"):
+                        showDevices(con)
                     else:
                         print("Invalid Arguments")
                 else:
                     print("Insufficient Arguments")
+            elif(user_query[0] == "buy"):
+                buyProduct(customer_id, con)
+            elif(user_query[0] == "review"):
+                createReview(customer_id, con)
             else:
                 print("Invalid Argument")
 
-Customer(4)
+Customer(3)
