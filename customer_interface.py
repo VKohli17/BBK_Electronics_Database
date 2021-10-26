@@ -126,6 +126,7 @@ def createCustomer():
         password="DNA",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
+    pw = input("Please enter your password: ")
     fname = input("Please enter your First Name: ")
     lname = input("Please enter your Last Name: ")
     prem = input("Are you a Premium Customer(yes/no): ").lower()
@@ -144,7 +145,7 @@ def createCustomer():
     cur = con.cursor()
     retrieve_id = con.cursor()
     try:
-        cur.execute("insert into customers (first_name, last_name, premium_customer, gender, city, state, country, dob, age) values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {})".format(fname, lname, prem, gender, city, state, country, dob, age))
+        cur.execute("insert into customers (password, first_name, last_name, premium_customer, gender, city, state, country, dob, age) values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {})".format(pw, fname, lname, prem, gender, city, state, country, dob, age))
     except pymysql.Error as e:
         try:
             print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
@@ -237,6 +238,7 @@ def createReview(customer_id, con):
         cur = con.cursor()
         codes = []
         cur.execute("select products.code, products.name from customers join owns_a on customers.id = owns_a.customer_id join products on owns_a.product_id=products.code where customers.id = {} and products.name like '%{}%';".format(customer_id, pname))
+
         print("Code\tProduct Name")
         for obj in cur:
             print (str(obj["code"]) + "\t" + obj["name"])
@@ -630,7 +632,7 @@ def deleteMe(customer_id, con):
     finally:
         cur.close()
     
-def Customer(customer_id):
+def Customer(customer_id, password):
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
@@ -646,9 +648,15 @@ def Customer(customer_id):
 
     try:
         cur = con.cursor()
-        cur.execute("select id from customers where id={};".format(customer_id))
+        cur.execute("select id, password, fname from customers where id={};".format(customer_id))
+        acc = cur.fetchone()
         if(cur.fetchone() == None):
             print("Customer ID not found")
+            return None
+        elif(acc["password"] == password):
+            print("Welcome back, {}".format(acc["fname"]))
+        elif(acc["password"] != password):
+            print("Incorrect Password")
             return None
     except pymysql.Error as e:
         try:

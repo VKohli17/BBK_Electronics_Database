@@ -26,8 +26,9 @@ while(1):
     
     
     if(ch==1):
-        print()
-        Customer(1)
+        ID = input("Enter Customer ID> ")
+        password = input("Enter Password> ")
+        Customer(ID,password)
         
     elif(ch==2):
         InventoryManager()

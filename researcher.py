@@ -142,7 +142,7 @@ def Researcher():
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="dna",
+        password="DNA",
         db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 

@@ -105,6 +105,7 @@ DROP TABLE IF EXISTS `customers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `password` varchar(50) DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `premium_customer` varchar(50) DEFAULT NULL,
