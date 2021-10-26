@@ -22,7 +22,7 @@ def display(column_name, con):
         cur.execute("select * from products")
         print("Products Info List")
         for obj in cur:
-            print(obj["name"] + "\t" + obj["code"] + "\t" + obj["cost"] + "\t" + obj["sales"] + "\t" + obj["profit"])
+            print(obj["name"] + "\t" + str(obj["code"]) + "\t" + str(obj["cost"]) + "\t" + str(obj["sales"]) + "\t" + str(obj["profit"]))
 
 def Update(con):
     print("Option 1: Employee Data")
@@ -96,8 +96,8 @@ def UpdateEmployeeInfo(con):
                 print("Valid parameters: ")
                 print(l)
             else:
-                value = input("Enter the new value: ")
-                query2 = "update employees set " + parameter + " = " + value + " where id = " + str(options)
+                value1 = input("Enter the new value: ")
+                query2 = "update employees set " + parameter + " = '" + value1 + "' where id = " + str(options) + ";"
                 print(query2)
                 cur.execute(query2)
                 con.commit()
@@ -125,12 +125,12 @@ def AddEmployee(con):
     info["name"] = input("Name: ")
     info["role"] = input("Role: ")
     info["team"] = input("Team: ")
-    info["experince"]  = int(input("Experince: "))
+    info["experience"]  = int(input("Experience: "))
     info["salary"] = int(input("Salary: "))
     info["leaves_used"] = 0;
     info["hours_spent"] = 0;
     
-    query = "Insert into employees VALUES('%d', '%s', '%s', '%s', '%d', '%d', '%d', %d)" % (info["id"], info["name"], info["role"], info["team"], info["experience"], info["salary"], info["leaves_used"], info["hours_spent"])
+    query = "Insert into employees VALUES('%d', '%s', '%s', '%s', '%d', '%d', '%d', '%d')" % (info["id"], info["name"], info["role"], info["team"], info["experience"], info["salary"], info["leaves_used"], info["hours_spent"])
     print(query)
     cur.execute(query)
     con.commit()
@@ -201,8 +201,8 @@ def Administrator():
     con = pymysql.connect(host='localhost',
         port=30306,
         user="root",
-        password="fckdna",
-        db='bbk',
+        password="dna",
+        db='bbke',
         cursorclass=pymysql.cursors.DictCursor)
 
     if(con.open):

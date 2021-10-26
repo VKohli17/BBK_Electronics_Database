@@ -4,8 +4,8 @@ import pymysql
 con = pymysql.connect(host='localhost',
     port=30306,
     user="root",
-    password="fckdna",
-    db='bbk',
+    password="dna",
+    db='bbke',
     cursorclass=pymysql.cursors.DictCursor)
 
 # tmp = sp.call('clear', shell=True)

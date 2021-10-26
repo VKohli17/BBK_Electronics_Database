@@ -184,7 +184,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (123,'John','manager','r&d',10,100000,6,180),(124,'ABC','salesman','marketing',5,10000,6,180),(125,'XYZ','engineer','display',2,1000000,7,200);
+INSERT INTO `employees` VALUES (123,'John','manager','r&d',10,100000,6,180),(124,'ABC','salesman','marketing',5,10000,6,180),(125,'XYZ','engineer','display',2,1000000,7,200),(4234,'harry','djwfbiw','fbcjh',4,345,0,0);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,6 +374,7 @@ CREATE TABLE `products` (
   `launch_date` date DEFAULT NULL,
   `weekly_production` int DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
+  `brand` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -384,6 +385,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'Some phone',1000,20000,200,'2017-12-22',5000,'smartphone','oppo');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -726,4 +728,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-25 13:39:54
+-- Dump completed on 2021-10-25 21:25:15
